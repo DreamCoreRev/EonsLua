@@ -7,68 +7,79 @@ end
 -- Les handlers doivent être déclarés APRÈS AIO.AddAddon()
 local TxiPathHandlers = AIO.AddHandlers("TxiPathSystemClient", {})
 
--- Création de la fenêtre principale
 local mainFrame = CreateFrame("Frame", "TxiPathMainFrame", UIParent)
 mainFrame:SetSize(1400, 650)
 mainFrame:SetPoint("CENTER", UIParent, "CENTER")
 mainFrame:SetMovable(false)
 mainFrame:EnableMouse(true)
 mainFrame:RegisterForDrag("LeftButton")
-mainFrame:SetBackdrop({
-    bgFile = "Interface/TaxiPathUI/TemplateTaxiPath.blp",
-    tile = false,
-})
 mainFrame:SetScript("OnDragStart", mainFrame.StartMoving)
 mainFrame:SetScript("OnDragStop", mainFrame.StopMovingOrSizing)
-mainFrame:SetFrameStrata("HIGH")
+mainFrame:SetFrameStrata("DIALOG")
+mainFrame:SetFrameLevel(1)
 mainFrame:Hide()
 
--- Titre
-local title = mainFrame:CreateFontString(nil, "OVERLAY")
+-- Fond du cadre (BACKGROUND : en dessous de tout)
+local bgTex = mainFrame:CreateTexture(nil, "BACKGROUND")
+bgTex:SetTexture("Interface/TaxiPathUI/TemplateTaxiPath.blp")
+bgTex:SetAllPoints(mainFrame)
+
+-- Texture de la carte
+local mapTextureFrame = CreateFrame("Frame", "TxiPathMapTextureFrame", mainFrame)
+mapTextureFrame:SetSize(401, 382)
+mapTextureFrame:SetPoint("RIGHT", mainFrame, "RIGHT", -349, 14)
+mapTextureFrame:SetFrameStrata("DIALOG")
+mapTextureFrame:SetFrameLevel(2)
+
+-- Boutons de téléportation (par-dessus la carte)
+local mapFrame = CreateFrame("Frame", "TxiPathMapFrame", mainFrame)
+mapFrame:SetSize(401, 382)
+mapFrame:SetPoint("RIGHT", mainFrame, "RIGHT", -349, 14)
+mapFrame:SetFrameStrata("DIALOG")
+mapFrame:SetFrameLevel(3)
+
+-- Bordure dorée (par-dessus la carte, même texture avec canal alpha)
+local borderFrame = CreateFrame("Frame", "TxiPathBorderFrame", mainFrame)
+borderFrame:SetAllPoints(mainFrame)
+borderFrame:SetFrameStrata("DIALOG")
+borderFrame:SetFrameLevel(4)
+
+local borderTex = borderFrame:CreateTexture(nil, "OVERLAY")
+borderTex:SetTexture("Interface/TaxiPathUI/TemplateTaxiPath.blp")
+borderTex:SetAllPoints(borderFrame)
+
+-- Titre (enfant de borderFrame = au-dessus de la bordure)
+local title = borderFrame:CreateFontString(nil, "OVERLAY")
 title:SetFont("Fonts\\FRIZQT__.TTF", 16, "OUTLINE")
 title:SetPoint("TOP", mainFrame, "TOP", -40, -57)
 title:SetText("Téléporteur")
 title:SetTextColor(1, 0.84, 0)
 
 -- Bouton de fermeture
-local closeButton = CreateFrame("Button", nil, mainFrame, "UIPanelCloseButton")
+local closeButton = CreateFrame("Button", nil, borderFrame, "UIPanelCloseButton")
 closeButton:SetPoint("TOPLEFT", mainFrame, "TOPLEFT", 1043, -103)
 closeButton:SetSize(24, 24)
 closeButton:SetScript("OnClick", function()
     mainFrame:Hide()
 end)
 
--- Sous-cadre pour la texture de la carte (arrière-plan)
-local mapTextureFrame = CreateFrame("Frame", "TxiPathMapTextureFrame", mainFrame)
-mapTextureFrame:SetSize(401, 382)
-mapTextureFrame:SetPoint("RIGHT", mainFrame, "RIGHT", -349, 14)
-mapTextureFrame:SetFrameLevel(mainFrame:GetFrameLevel())
-
--- Cadre principal pour les boutons (au-dessus de la texture)
-local mapFrame = CreateFrame("Frame", "TxiPathMapFrame", mainFrame)
-mapFrame:SetSize(401, 382)
-mapFrame:SetPoint("RIGHT", mainFrame, "RIGHT", -349, 14)
-mapFrame:SetFrameLevel(mainFrame:GetFrameLevel() + 1)
-
 -- Fonction pour afficher une carte et ses points de téléportation
 local function ShowMap(mapTexture, mapId, teleportPoints)
-    local faction = UnitFactionGroup("player")  -- "Alliance" ou "Horde"
+    local faction = UnitFactionGroup("player")
     local playerLevel = UnitLevel("player")
 
-    -- Appliquer la texture de la carte
     mapTextureFrame:SetBackdrop({
         bgFile = mapTexture,
         tile = false,
     })
 
-    -- Effacer les boutons précédents
     for _, child in ipairs({mapFrame:GetChildren()}) do
         child:Hide()
     end
-
-    -- MapIds valides pour la téléportation
+	
+	-- MapIds valides pour la téléportation
     --local validMapIds = { 822, 811, 806, 805, 802, 801, 800, 798, 793, 792, 781, 771, 754, 571, 530, 1, 0 }
-	local validMapIds = { 571, 530, 1, 0 }
+    local validMapIds = { 571, 530, 1, 0 }
 
     for _, point in ipairs(teleportPoints) do
         if (point.faction == faction or point.faction == nil) and (not point.requiredLevel or playerLevel >= point.requiredLevel) then
@@ -107,12 +118,13 @@ local function ShowMap(mapTexture, mapId, teleportPoints)
 
                 if isValidMap then
                     AIO.Handle("TxiPathSystemServer", "TeleportPlayer", targetMapId, point.x, point.y, point.z, point.orientation)
+                    mainFrame:Hide()
                 else
-                    print("MapId invalide pour la téléportation.")
+                    print("MapId invalide : " .. tostring(targetMapId))
                 end
-
-                mainFrame:Hide()
             end)
+
+            button:Show()
         end
     end
 end
@@ -130,10 +142,19 @@ local maps = {
     -- Royaume de l'est
     { name = "Royaume de l'est", mapId = 0, texture = "Interface/TaxiPathUI/EasternKingdoms.blp", points = {
         { name = "|TInterface\\icons\\achievement_zone_elwynnforest:35|t Hurlevent (Capitale)", texture = "Interface/TaxiPathUI/AlliancePathUIEmblem", buttonX = 165, buttonY = 100, x = -8996.99, y = 860.68, z = 29.62, orientation = 2.25, faction = "Alliance" },
+		{ name = "|TInterface\\icons\\achievement_zone_elwynnforest:35|t Forêt d'Elwynn (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 185, buttonY = 95, x = -9473.13, y = -1340.36, z = 44.74, orientation = 1.42, faction = "Alliance" },
 		{ name = "|TInterface\\icons\\inv_misc_head_gnoll_01:35|t Prison de Hurlevent (Donjon)", texture = "Interface/TaxiPathUI/ui-icon-dungeon", buttonX = 155, buttonY = 120, x = -8776.62, y = 836.76, z = 93.14, orientation = 0.66, faction = "Alliance" },
-        { name = "|TInterface\\icons\\achievement_zone_dunmorogh:35|t Forgefer (Capitale)", texture = "Interface/TaxiPathUI/AlliancePathUIEmblem", buttonX = 180, buttonY = 155, x = -4629.20, y = -1315.85, z = 501.99, orientation = 2.33, faction = "Alliance" },
+        { name = "|TInterface\\icons\\achievement_zone_lochmodan:35|t Loch Modan (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 215, buttonY = 150, x = -5346.40, y = -2979.57, z = 324.26, orientation = 5.07, faction = "Alliance" },
+		{ name = "|TInterface\\icons\\achievement_zone_westfall_01:35|t Marche de l'Ouest (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 150, buttonY = 78, x = -10519.92, y = 1068.80, z = 54.67, orientation = 2.02, faction = "Alliance" },
+		{ name = "|TInterface\\icons\\achievement_zone_dunmorogh:35|t Forgefer (Capitale)", texture = "Interface/TaxiPathUI/AlliancePathUIEmblem", buttonX = 180, buttonY = 155, x = -4629.20, y = -1315.85, z = 501.99, orientation = 2.33, faction = "Alliance" },
+		{ name = "|TInterface\\icons\\achievement_zone_dunmorogh:35|t Dun Morogh (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 160, buttonY = 145, x = -5600.29, y = -498.22, z = 399.35, orientation = 1.55, faction = "Alliance" },
+		{ name = "|TInterface\\icons\\achievement_zone_redridgemountains:35|t Les Carmines (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 210, buttonY = 95, x = -9266.36, y = -2210.69, z = 64.05, orientation = 3.11, faction = "Alliance" },
         { name = "|TInterface\\icons\\achievement_zone_tirisfalglades_01:35|t Fossoyeuse (Capitale)", texture = "Interface/TaxiPathUI/HordePathUIEmblem", buttonX = 165, buttonY = 245, x = 1831, y = 238.5, z = 61.6, orientation = 0, faction = "Horde" },
-        { name = "|TInterface\\icons\\achievement_zone_bloodmystisle_01:35|t Lune d'Argent (Capitale)", texture = "Interface/TaxiPathUI/HordePathUIEmblem", buttonX = 240, buttonY = 320, x = 9484, y = -7294, z = 15, orientation = 0, faction = "Horde", mapId = 530 },
+        { name = "|TInterface\\icons\\achievement_zone_tirisfalglades_01:35|t Clairières de Tirisfal (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 165, buttonY = 262, x = 2259.77, y = 294.16, z = 34.11, orientation = 1.01, faction = "Horde" },
+		{ name = "|TInterface\\icons\\achievement_zone_silverpine_01:35|t Forêt des Pins-Argentés (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 145, buttonY = 225, x = 507.48, y = 1623.43, z = 125.62, orientation = 4.79, faction = "Horde" },
+		{ name = "|TInterface\\icons\\achievement_zone_bloodmystisle_01:35|t Lune d'Argent (Capitale)", texture = "Interface/TaxiPathUI/HordePathUIEmblem", buttonX = 240, buttonY = 320, x = 9484, y = -7294, z = 15, orientation = 0, faction = "Horde", mapId = 530 },
+		{ name = "|TInterface\\icons\\achievement_zone_eversongwoods:35|t Bois des Chants éternels (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 235, buttonY = 300, x = 9500.69, y = -6828.44, z = 16.49, orientation = 0.77, faction = "Horde", mapId = 530 },
+		{ name = "|TInterface\\icons\\achievement_zone_ghostlands:35|t Les Terres Fantômes (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 235, buttonY = 278, x = 7022.84, y = -6819.02, z = 42.23, orientation = 2.77, faction = "Horde", mapId = 530 },
     }},
     -- Outreterre
     { name = "Outreterre", mapId = 530, texture = "Interface/TaxiPathUI/Outland.blp", points = {
@@ -179,6 +200,8 @@ for i, map in ipairs(maps) do
     local button = CreateFrame("Button", nil, mainFrame)
     button:SetSize(200, 75)
     button:SetPoint("TOPLEFT", mainFrame, "TOPLEFT", 364, startY - (i - 1) * 47)
+    button:SetFrameStrata("DIALOG")
+    button:SetFrameLevel(5)
 
     button:SetNormalTexture("Interface/TaxiPathUI/ButtonPathUI.blp")
 
@@ -204,15 +227,10 @@ end
 -- Initialisation par défaut (carte vide)
 ShowMap("Interface/TaxiPathUI/MerBoreale.blp", 1, {})
 
--- ─────────────────────────────────────────────────────────────────────────────
--- Handlers AIO reçus depuis le serveur
--- Doivent être définis APRÈS AIO.AddAddon() et APRÈS la création des frames
--- ─────────────────────────────────────────────────────────────────────────────
-
 function TxiPathHandlers.ShowMainFrame()
     if mainFrame then
         mainFrame:Show()
-        mainFrame:Raise()  -- passe au premier plan sans bloquer les autres frames
+        mainFrame:Raise()
     end
 end
 
