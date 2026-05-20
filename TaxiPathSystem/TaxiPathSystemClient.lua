@@ -122,13 +122,15 @@ local maps = {
     -- Kalimdor
     { name = "Kalimdor", mapId = 1, texture = "Interface/TaxiPathUI/Kalimdor.blp", points = {
         { name = "|TInterface\\icons\\achievement_zone_durotar:35|t Orgrimmar (Capitale)", texture = "Interface/TaxiPathUI/HordePathUIEmblem", buttonX = 255, buttonY = 215, x = 1465.20, y = -4215.22, z = 43.18, orientation = 5.92, faction = "Horde" },
-        { name = "|TInterface\\icons\\achievement_zone_mulgore_01:35|t Mulgore (Capitale)", texture = "Interface/TaxiPathUI/HordePathUIEmblem", buttonX = 175, buttonY = 165, x = -1224.26, y = 51.11, z = 128.40, orientation = 2.45, faction = "Horde" },
+        { name = "|TInterface\\icons\\racial_orc_berserkerstrength:35|t Gouffre de Ragefeu (Donjon)", texture = "Interface/TaxiPathUI/ui-icon-dungeon", buttonX = 255, buttonY = 230, x = 1808.17, y = -4405.44, z = -18.48, orientation = 5.18, faction = "Horde" },
+		{ name = "|TInterface\\icons\\achievement_zone_mulgore_01:35|t Mulgore (Capitale)", texture = "Interface/TaxiPathUI/HordePathUIEmblem", buttonX = 175, buttonY = 165, x = -1224.26, y = 51.11, z = 128.40, orientation = 2.45, faction = "Horde" },
         { name = "|TInterface\\icons\\achievement_zone_ashenvale_01:35|t Darnassus (Capitale)", texture = "Interface/TaxiPathUI/AlliancePathUIEmblem", buttonX = 145, buttonY = 340, x = 9915.03, y = 2511.81, z = 1316.94, orientation = 1.45, faction = "Alliance" },
         { name = "|TInterface\\icons\\achievement_zone_zangarmarsh:35|t Exodar (Capitale)", texture = "Interface/TaxiPathUI/AlliancePathUIEmblem", buttonX = 90, buttonY = 285, x = -3863, y = -11736, z = -106, orientation = 2, faction = "Alliance", mapId = 530 },
     }},
     -- Royaume de l'est
     { name = "Royaume de l'est", mapId = 0, texture = "Interface/TaxiPathUI/EasternKingdoms.blp", points = {
         { name = "|TInterface\\icons\\achievement_zone_elwynnforest:35|t Hurlevent (Capitale)", texture = "Interface/TaxiPathUI/AlliancePathUIEmblem", buttonX = 165, buttonY = 100, x = -8996.99, y = 860.68, z = 29.62, orientation = 2.25, faction = "Alliance" },
+		{ name = "|TInterface\\icons\\inv_misc_head_gnoll_01:35|t Prison de Hurlevent (Donjon)", texture = "Interface/TaxiPathUI/ui-icon-dungeon", buttonX = 155, buttonY = 120, x = -8776.62, y = 836.76, z = 93.14, orientation = 0.66, faction = "Alliance" },
         { name = "|TInterface\\icons\\achievement_zone_dunmorogh:35|t Forgefer (Capitale)", texture = "Interface/TaxiPathUI/AlliancePathUIEmblem", buttonX = 180, buttonY = 155, x = -4629.20, y = -1315.85, z = 501.99, orientation = 2.33, faction = "Alliance" },
         { name = "|TInterface\\icons\\achievement_zone_tirisfalglades_01:35|t Fossoyeuse (Capitale)", texture = "Interface/TaxiPathUI/HordePathUIEmblem", buttonX = 165, buttonY = 245, x = 1831, y = 238.5, z = 61.6, orientation = 0, faction = "Horde" },
         { name = "|TInterface\\icons\\achievement_zone_bloodmystisle_01:35|t Lune d'Argent (Capitale)", texture = "Interface/TaxiPathUI/HordePathUIEmblem", buttonX = 240, buttonY = 320, x = 9484, y = -7294, z = 15, orientation = 0, faction = "Horde", mapId = 530 },
