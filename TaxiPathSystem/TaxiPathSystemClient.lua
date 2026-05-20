@@ -141,6 +141,8 @@ local maps = {
     }},
     -- Royaume de l'est
     { name = "Royaume de l'est", mapId = 0, texture = "Interface/TaxiPathUI/EasternKingdoms.blp", points = {
+	
+		-- Alliance
         { name = "|TInterface\\icons\\achievement_zone_elwynnforest:35|t Hurlevent (Capitale)", texture = "Interface/TaxiPathUI/AlliancePathUIEmblem", buttonX = 165, buttonY = 100, x = -8996.99, y = 860.68, z = 29.62, orientation = 2.25, faction = "Alliance" },
 		{ name = "|TInterface\\icons\\achievement_zone_elwynnforest:35|t Forêt d'Elwynn (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 185, buttonY = 95, x = -9473.13, y = -1340.36, z = 44.74, orientation = 1.42, faction = "Alliance" },
 		{ name = "|TInterface\\icons\\inv_misc_head_gnoll_01:35|t Prison de Hurlevent (Donjon)", texture = "Interface/TaxiPathUI/ui-icon-dungeon", buttonX = 155, buttonY = 120, x = -8776.62, y = 836.76, z = 93.14, orientation = 0.66, faction = "Alliance" },
@@ -149,12 +151,23 @@ local maps = {
 		{ name = "|TInterface\\icons\\achievement_zone_dunmorogh:35|t Forgefer (Capitale)", texture = "Interface/TaxiPathUI/AlliancePathUIEmblem", buttonX = 180, buttonY = 155, x = -4629.20, y = -1315.85, z = 501.99, orientation = 2.33, faction = "Alliance" },
 		{ name = "|TInterface\\icons\\achievement_zone_dunmorogh:35|t Dun Morogh (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 160, buttonY = 145, x = -5600.29, y = -498.22, z = 399.35, orientation = 1.55, faction = "Alliance" },
 		{ name = "|TInterface\\icons\\achievement_zone_redridgemountains:35|t Les Carmines (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 210, buttonY = 95, x = -9266.36, y = -2210.69, z = 64.05, orientation = 3.11, faction = "Alliance" },
+		{ name = "|TInterface\\icons\\achievement_zone_duskwood:35|t Bois de la Pénombre (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 175, buttonY = 73, x = -10898.29, y = -364.78, z = 39.26, orientation = 3.08, faction = "Alliance" },
+		{ name = "|TInterface\\icons\\achievement_zone_hillsbradfoothills:35|t Contreforts de Hautebrande (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 175, buttonY = 220, x = -13.94, y = -334.34, z = 131.27, orientation = 4.11, faction = "Alliance" },
+		{ name = "|TInterface\\icons\\achievement_zone_arathihighlands_01:35|t Hautes-terres Arathies (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 210, buttonY = 205, x = -1266.14, y = -2496.79, z = 21.76, orientation = 5.26, faction = "Alliance" },
+		
+		-- Horde
         { name = "|TInterface\\icons\\achievement_zone_tirisfalglades_01:35|t Fossoyeuse (Capitale)", texture = "Interface/TaxiPathUI/HordePathUIEmblem", buttonX = 165, buttonY = 245, x = 1831, y = 238.5, z = 61.6, orientation = 0, faction = "Horde" },
         { name = "|TInterface\\icons\\achievement_zone_tirisfalglades_01:35|t Clairières de Tirisfal (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 165, buttonY = 262, x = 2259.77, y = 294.16, z = 34.11, orientation = 1.01, faction = "Horde" },
 		{ name = "|TInterface\\icons\\achievement_zone_silverpine_01:35|t Forêt des Pins-Argentés (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 145, buttonY = 225, x = 507.48, y = 1623.43, z = 125.62, orientation = 4.79, faction = "Horde" },
+		{ name = "|TInterface\\icons\\achievement_zone_hillsbradfoothills:35|t Contreforts de Hautebrande (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 177, buttonY = 220, x = -33.89, y = -883.32, z = 56.14, orientation = 2.35, faction = "Horde" },
+		{ name = "|TInterface\\icons\\achievement_zone_arathihighlands_01:35|t Hautes-terres Arathies (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 220, buttonY = 205, x = -1020.85, y = -3550.85, z = 56.020, orientation = 0.003, faction = "Horde" },
 		{ name = "|TInterface\\icons\\achievement_zone_bloodmystisle_01:35|t Lune d'Argent (Capitale)", texture = "Interface/TaxiPathUI/HordePathUIEmblem", buttonX = 240, buttonY = 320, x = 9484, y = -7294, z = 15, orientation = 0, faction = "Horde", mapId = 530 },
 		{ name = "|TInterface\\icons\\achievement_zone_eversongwoods:35|t Bois des Chants éternels (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 235, buttonY = 300, x = 9500.69, y = -6828.44, z = 16.49, orientation = 0.77, faction = "Horde", mapId = 530 },
 		{ name = "|TInterface\\icons\\achievement_zone_ghostlands:35|t Les Terres Fantômes (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 235, buttonY = 278, x = 7022.84, y = -6819.02, z = 42.23, orientation = 2.77, faction = "Horde", mapId = 530 },
+		
+		-- Neutre 
+		
+		{ name = "|TInterface\\icons\\achievement_zone_stranglethorn_01:35|t Vallée de Strangleronce (Village)", texture = "Interface/TaxiPathUI/FlyTPUI", buttonX = 160, buttonY = 38, x = -13288.69, y = 109.33, z = 23.32, orientation = 4.04 },
     }},
     -- Outreterre
     { name = "Outreterre", mapId = 530, texture = "Interface/TaxiPathUI/Outland.blp", points = {
